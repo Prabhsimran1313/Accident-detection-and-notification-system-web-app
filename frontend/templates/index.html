@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accident Detection </title>
+    
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+</head>
+<body>
+    <!-- Dismissible alert for email sent -->
+    <div id="emailSentAlert" class="alert alert-success alert-dismissible fade" role="alert" style="display: none;">
+        Email sent successfully!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <header class="bg-primary text-white text-center py-5">
+        <h1>Welcome to Accident Detection & Notification System</h1>
+        <p>Your Safety, Our Priority</p>
+    </header>
+
+    <!-- Feature Section -->
+    <section class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="feature text-center mb-4">
+                    <img id="accidentIcon" src="/static/images/accident-icon.png" alt="Accident Icon" />
+                    <h2>Real-time Detection</h2>
+                    <p>Our advanced algorithms detect accidents in real-time, ensuring a rapid response.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="feature text-center mb-4">
+                    <img id="notificationIcon" src="/static/images/notification-icon.png" alt="Notification Icon" />
+                    <h2>Instant Alerts</h2>
+                    <p>We notify emergency services and your loved ones immediately upon detection.</p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section with Wrapper Div -->
+<div class="upload-wrapper">
+    <div class="container text-center mt-5">
+        <h4 class="mb-4">Upload your file here to be detected and output be shown</h4>
+        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input" id="uploadInput" name="file" onchange="updateFileName(this)">
+                <label class="custom-file-label" for="uploadInput">Choose file</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function updateFileName(input) {
+        var fileName = input.files[0].name;
+        var label = input.nextElementSibling;
+        label.innerText = fileName;
+    }
+</script>
+
+    
+<div class="output">
+    <strong><p id="resultMessage" style="font-size: larger;"></p></strong>
+</div>
+
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2023 Accident Detection App</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom Script -->
+    <script>
+        // Display uploaded media (image or video) and clear previous results
+        document.getElementById('uploadInput').addEventListener('change', function(event) {
+            // Clear previous results
+            document.getElementById('resultMessage').textContent = '';
+            
+            var uploadedMedia = document.getElementById('uploadedMedia');
+            var uploadedVideo = document.getElementById('uploadedVideo');
+            var file = event.target.files[0];
+            if (file.type.startsWith('image')) {
+                uploadedMedia.src = URL.createObjectURL(file);
+                uploadedMedia.style.display = 'block';
+                uploadedVideo.style.display = 'none';
+            } else if (file.type.startsWith('video')) {
+                uploadedVideo.src = URL.createObjectURL(file);
+                uploadedVideo.style.display = 'block';
+                uploadedMedia.style.display = 'none';
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var form = event.target;
+            var formData = new FormData(form);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the result message in the appropriate element
+                document.getElementById('resultMessage').textContent = data.result;
+                // Display the dismissible alert
+                document.getElementById('emailSentAlert').style.display = 'block';
+                // Add the 'show' class to trigger the alert animation
+                document.getElementById('emailSentAlert').classList.add('show');
+                
+                // Hide the alert after 5 seconds
+                setTimeout(function() {
+                    document.getElementById('emailSentAlert').style.display = 'none';
+                    document.getElementById('emailSentAlert').classList.remove('show');
+                }, 5000); // Adjust the time as needed
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });            
+        });
+    </script>
+</body>
+</html>

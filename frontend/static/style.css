@@ -1,0 +1,67 @@
+/* Custom Styles */
+html {
+    position: relative;
+    min-height: 100%;
+}
+  
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('../static/images/acc_dec_img.jpeg'); /* Adjust the path as needed */
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0; /* Reset default body margin */
+    padding-bottom: 50px; /* Add padding at the bottom to accommodate the footer */
+}
+
+header {
+    text-align: center;
+    padding: 100px 0;
+    background-color: #3498db;
+    color: #fff;
+}
+
+.container {
+    text-align: center;
+    padding: 30px;
+}
+
+#notificationIcon {
+    width: 100px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+#accidentIcon {
+    width: 100px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+/* Style for the Form Section */
+.upload-wrapper {
+    background-color: rgba(255, 255, 255, 0.5); /* Transparent white background */
+    border-radius: 10px;
+    margin-top: 20px; /* Adjust the margin-top as needed */
+    padding-bottom: 20px; /* Add padding-bottom to create space with footer */
+}
+
+.custom-file-input {
+    color: transparent; /* Hide the default file input text */
+}
+
+.custom-file-label::after {
+    content: 'Choose file'; /* Custom text for file input */
+}
+
+.output {
+    text-align: center;
+    margin-top: 20px; /* Add margin at the top */
+    margin-bottom: 20px; /* Add margin at the bottom */
+}
+
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #333;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    }
