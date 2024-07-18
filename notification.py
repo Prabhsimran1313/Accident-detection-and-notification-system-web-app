@@ -10,9 +10,9 @@ from datetime import datetime
 class AccidentNotification:
     def __init__(self):
         # Define email sender and receiver
-        self.email_sender = 'thisemailistemporary11@gmail.com'
-        self.email_password = 'gyxgxjsysdvyedkj'
-        self.email_receiver = 'prabhsimransingh24092@gmail.com'
+        self.email_sender = 'Sender Email'
+        self.email_password = 'Sender Password'
+        self.email_receiver = 'Receiver Email'
 
     def send_email(self, subject, body, image_data):
         em = EmailMessage()
